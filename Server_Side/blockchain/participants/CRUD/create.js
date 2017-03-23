@@ -56,6 +56,9 @@ function loginUser(req, res, secret)
         json: true
     };
 
+    console.log("participants - create: LoginUser ")
+    console.log(options)
+
     request(options, function(error, response, body){
         if (!body.hasOwnProperty('Error') && response.statusCode == 200)
         {

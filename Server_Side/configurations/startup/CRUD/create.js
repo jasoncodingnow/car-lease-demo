@@ -86,6 +86,8 @@ function deployChaincode(enrolledMember, chaincodePath, functionName, args, cert
             chaincodePath: chaincodePath
         };
         deployRequest.certificatePath = certPath;
+        console.log("deplay chaincode")
+        console.log(deployRequest)
 
         let transactionContext = enrolledMember.deploy(deployRequest);
 

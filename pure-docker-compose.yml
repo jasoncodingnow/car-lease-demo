@@ -29,14 +29,3 @@ services:
       - "7053:7053"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-  supplychain-demo:
-    build:
-      context: "."
-    links:
-      - vp0
-      - membersrvc
-    ports:
-      - "8080:8080"
-    # volumes:
-    #   - "/Users/david/Desktop/work/code/gopath/src/github.com/jasoncodingnow/car-lease-demo/Server_Side:/usr/src/app/Server_Side"
-    #   - "/Users/david/Desktop/work/code/gopath/src/github.com/jasoncodingnow/car-lease-demo/Chaincode:/usr/src/app/Chaincode"

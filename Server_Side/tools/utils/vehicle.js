@@ -6,6 +6,8 @@ const hfc = require('hfc');
 class Vehicle {
 
     constructor(usersToSecurityContext) {
+        console.log("Vehicle: constructor: ");
+        console.log(usersToSecurityContext);
         this.usersToSecurityContext = usersToSecurityContext;
         this.chain = hfc.getChain('myChain'); //TODO: Make this a config param?
     }

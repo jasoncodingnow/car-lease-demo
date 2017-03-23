@@ -46,6 +46,7 @@ let usersToSecurityContext = {};
 
 let port = process.env.VCAP_APP_PORT || configFile.config.appPort;
 
+console.log("开始nodejs sdk")
 
 ////////  Pathing and Module Setup  ////////
 app.use(bodyParser.json());
@@ -358,6 +359,7 @@ if (process.env.VCAP_SERVICES) { // We are running in bluemix
     startup.connectToEventHub(chain, credentials.peers[0], pem);
 
 } else { // We are running locally
+    // let credentials = fs.readFileSync(__dirname + '/local-credentials.json');   //TODO 
     let credentials = fs.readFileSync(__dirname + '/credentials.json');
     credentials = JSON.parse(credentials);
     startup.connectToPeers(chain, credentials.peers);
@@ -373,6 +375,7 @@ server = http.createServer(app).listen(port, function () {
 });
 server.timeout = 2400000;
 
+console.log("enroll registrar, name is " + configFile.config.registrar_name + ", pwe is " + webAppAdminPassword )
 let chaincodeID;
 startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPassword)
 .then(function(r) {
@@ -388,6 +391,8 @@ startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPass
     return startup.enrollUsers(chain, users, registrar);
 })
 .then(function(users) {
+    console.log("after enroll all users");
+    console.log(users);
     tracing.create('INFO', 'Startup', 'All users registered');
     users.forEach(function(user) {
         usersToSecurityContext[user.getName()] = new SecurityContext(user);
@@ -425,6 +430,7 @@ startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPass
     if (!exists) {
         let certPath = (vcapServices) ? vcapServices.cert_path : '/certs/peer/cert.pem';
         chain.getEventHub().connect();
+        console.log("Deploying, cert path is ", certPath);
         return startup.deployChaincode(registrar, 'vehicle_code', 'Init', [], certPath);
     } else {
         tracing.create('INFO', 'Startup', 'Chaincode already deployed');
